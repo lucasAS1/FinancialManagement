@@ -1,0 +1,78 @@
+# Frontend CI/CD Pipeline
+trigger:
+  branches:
+    include:
+      - main
+      - develop
+  paths:
+    include:
+      - Frontend/**
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  nodeVersion: '18.x'
+  frontendDirectory: 'Frontend'
+
+stages:
+- stage: Build
+  displayName: 'Build and Test'
+  jobs:
+  - job: BuildAndTest
+    displayName: 'Build and Test Frontend'
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '$(nodeVersion)'
+      displayName: 'Install Node.js'
+
+    - script: |
+        cd $(frontendDirectory)
+        npm ci
+      displayName: 'npm install'
+
+    - script: |
+        cd $(frontendDirectory)
+        npm run lint
+      displayName: 'Lint code'
+      continueOnError: true
+
+    # TODO: Adicionar testes quando implementados
+    # - script: |
+    #     cd $(frontendDirectory)
+    #     npm test
+    #   displayName: 'Run tests'
+
+    - script: |
+        cd $(frontendDirectory)
+        npm run build
+      displayName: 'Build'
+
+    - task: CopyFiles@2
+      inputs:
+        sourceFolder: '$(frontendDirectory)/dist'
+        contents: '**'
+        targetFolder: '$(Build.ArtifactStagingDirectory)'
+      displayName: 'Copy build files'
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        artifactName: 'frontend'
+      displayName: 'Publish artifacts'
+
+# TODO: Adicionar estágio de deployment
+# - stage: Deploy
+#   displayName: 'Deploy to Environment'
+#   dependsOn: Build
+#   condition: succeeded()
+#   jobs:
+#   - deployment: DeployFrontend
+#     displayName: 'Deploy to Azure Static Web Apps'
+#     environment: 'Development'
+#     strategy:
+#       runOnce:
+#         deploy:
+#           steps:
+#           # Adicionar passos de deployment

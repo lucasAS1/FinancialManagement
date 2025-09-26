@@ -1,0 +1,55 @@
+@FinancialManagement_HostAddress = http://localhost:5292
+
+GET http://localhost:5292/api/credit-cards
+
+###
+GET @FinancialManagement_HostAddress/api/credit-cards/{name}
+
+###
+POST @FinancialManagement_HostAddress/api/credit-cards
+Content-Type: application/json
+
+{
+  "cardName": "string"
+}
+
+###
+PUT @FinancialManagement_HostAddress/api/credit-cards
+Content-Type: application/json
+
+{
+  "creditCard": {
+    "property1": "value1",
+    "property2": "value2"
+  }
+}
+
+###
+DELETE @FinancialManagement_HostAddress/api/credit-cards/{rowKey}
+
+###
+GET @FinancialManagement_HostAddress/api/financial-management/{date}
+
+###
+POST @FinancialManagement_HostAddress/api/financial-management/purchase
+Content-Type: application/json
+
+{
+  "purchase": {
+    "property1": "value1",
+    "property2": "value2"
+  }
+}
+
+###
+POST @FinancialManagement_HostAddress/api/financial-management/credit-card/{creditCard}/purchase
+Content-Type: application/json
+
+{
+  "purchase": {
+    "property1": "value1",
+    "property2": "value2"
+  }
+}
+
+###
