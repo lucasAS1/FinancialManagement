@@ -4,6 +4,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Layout from './components/Layout.tsx';
 import CreditCardList from './components/CreditCardList.tsx';
 import CreditCardForm from './components/CreditCardForm.tsx';
+import CreditCardBills from './components/CreditCardBills.tsx';
 import PurchaseList from './components/PurchaseList.tsx';
 import PurchaseForm from './components/PurchaseForm.tsx';
 import MonthlyBills from './components/MonthlyBills.tsx';
@@ -32,7 +33,9 @@ function App() {
             <Route path="/credit-cards" element={<CreditCardList />} />
             <Route path="/credit-cards/new" element={<CreditCardForm />} />
             <Route path="/credit-cards/:id/edit" element={<CreditCardForm />} />
-            <Route path="/purchases/:date" element={<PurchaseList date={new Date()} />} />
+            <Route path="/credit-card-bills" element={<CreditCardBills />} />
+            <Route path="/credit-card-bills/:cardName" element={<CreditCardBills />} />
+            <Route path="/purchases/:date" element={<PurchaseList />} />
             <Route path="/purchases/new" element={<PurchaseForm />} />
             <Route path="/monthly-bills" element={<MonthlyBills />} />
             <Route path="/bill-upload" element={<BillUpload />} />

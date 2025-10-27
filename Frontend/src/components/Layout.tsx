@@ -19,6 +19,7 @@ import {
   ShoppingCart as ShoppingCartIcon,
   Receipt as ReceiptIcon,
   Upload as UploadIcon,
+  AccountBalance as AccountBalanceIcon,
 } from '@mui/icons-material';
 
 const drawerWidth = 240;
@@ -29,6 +30,7 @@ interface LayoutProps {
 
 const menuItems = [
   { text: 'Credit Cards', icon: <CreditCardIcon />, path: '/credit-cards' },
+  { text: 'Credit Card Bills', icon: <AccountBalanceIcon />, path: '/credit-card-bills' },
   { text: 'Purchases', icon: <ShoppingCartIcon />, path: '/purchases' },
   { text: 'Monthly Bills', icon: <ReceiptIcon />, path: '/monthly-bills' },
   { text: 'Upload Bill', icon: <UploadIcon />, path: '/bill-upload' },

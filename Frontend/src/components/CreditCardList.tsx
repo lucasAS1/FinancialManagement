@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Paper,
   Table,
@@ -32,6 +33,7 @@ interface CreditCard {
 }
 
 export default function CreditCardList() {
+  const navigate = useNavigate();
   const [creditCards, setCreditCards] = useState<CreditCard[]>([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -79,9 +81,8 @@ export default function CreditCardList() {
     console.log('Edit credit card with ID:', id);
   };
 
-  const handleViewBills = (id: string) => {
-    // Implement view bills functionality
-    console.log('View bills for credit card with ID:', id);
+  const handleViewBills = (cardName: string) => {
+    navigate(`/credit-card-bills/${encodeURIComponent(cardName)}`);
   };
 
   // Format currency

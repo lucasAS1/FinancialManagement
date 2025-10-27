@@ -6,23 +6,25 @@ namespace FinancialManagement.Application.Services;
 public class CreditCardService
 {
     private readonly CreditCardRepository _creditCardRepository;
+    private readonly CreditCardBillRepository _creditCardBillRepository;
 
-    public CreditCardService(CreditCardRepository creditCardRepository)
+    public CreditCardService(CreditCardRepository creditCardRepository, CreditCardBillRepository creditCardBillRepository)
     {
         _creditCardRepository = creditCardRepository;
+        _creditCardBillRepository = creditCardBillRepository;
     }
 
-    public IEnumerable<CreditCard> GetAllAsync()
+    public virtual IEnumerable<CreditCard> GetAllAsync()
     {
         return _creditCardRepository.GetAll();
     }
 
-    public CreditCard? GetCreditCardByNameAsync(string name)
+    public virtual CreditCard? GetCreditCardByNameAsync(string name)
     {
         return _creditCardRepository.GetByKey(name);
     }
 
-    public async Task AddAsync(string cardName)
+    public virtual async Task AddAsync(string cardName)
     {
         var creditCard = new CreditCard
         {
@@ -36,13 +38,23 @@ public class CreditCardService
         await _creditCardRepository.Add(creditCard);
     }
 
-    public async Task UpdateAsync(CreditCard creditCard)
+    public virtual async Task UpdateAsync(CreditCard creditCard)
     {
         await _creditCardRepository.Update(creditCard);
     }
 
-    public async Task DeleteAsync(Guid rowKey)
+    public virtual async Task DeleteAsync(Guid rowKey)
     {
         await _creditCardRepository.Delete(rowKey);
+    }
+
+    public virtual IEnumerable<CreditCardBill> GetBillsAsync()
+    {
+        return _creditCardBillRepository.GetAll();
+    }
+
+    public virtual IEnumerable<CreditCardBill> GetBillsByCardAsync(string cardName)
+    {
+        return _creditCardBillRepository.GetAll().Where(b => b.PartitionKey == cardName);
     }
 }

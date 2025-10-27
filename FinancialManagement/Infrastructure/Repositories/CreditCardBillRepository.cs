@@ -16,27 +16,33 @@ public class CreditCardBillRepository
         _tableClient.CreateIfNotExists();
     }
 
-    public IEnumerable<CreditCardBill> GetAll()
+    // Parameterless constructor for testing
+    protected CreditCardBillRepository()
+    {
+        _tableClient = null!;
+    }
+
+    public virtual IEnumerable<CreditCardBill> GetAll()
     {
         return _tableClient.Query<CreditCardBill>().ToList();
     }
 
-    public CreditCardBill? GetById(string partitionKey, string rowKey)
+    public virtual CreditCardBill? GetById(string partitionKey, string rowKey)
     {
         return _tableClient.Query<CreditCardBill>(ccb => ccb.PartitionKey == partitionKey && ccb.RowKey == rowKey).FirstOrDefault();
     }
 
-    public async Task AddAsync(CreditCardBill creditCardBill)
+    public virtual async Task AddAsync(CreditCardBill creditCardBill)
     {
         await _tableClient.AddEntityAsync(creditCardBill);
     }
 
-    public async Task UpdateAsync(CreditCardBill creditCardBill)
+    public virtual async Task UpdateAsync(CreditCardBill creditCardBill)
     {
         await _tableClient.UpsertEntityAsync(creditCardBill, TableUpdateMode.Replace);
     }
 
-    public async Task DeleteAsync(string partitionKey, string rowKey)
+    public virtual async Task DeleteAsync(string partitionKey, string rowKey)
     {
         await _tableClient.DeleteEntityAsync(partitionKey, rowKey);
     }

@@ -25,7 +25,7 @@ public class FinancialManagementService
         _purchaseRepository = purchaseRepository;
     }
 
-    public IEnumerable<MonthlyBill> QueryMonthlyBills(DateTime month)
+    public virtual IEnumerable<MonthlyBill> QueryMonthlyBills(DateTime month)
     {
         var creditCards = _creditCardRepository.GetAll();
         var monthlyBills = new List<MonthlyBill>();
@@ -66,22 +66,22 @@ public class FinancialManagementService
         return monthlyBills;
     }
 
-    public async Task AddPurchaseAsync(Purchase purchase)
+    public virtual async Task AddPurchaseAsync(Purchase purchase)
     {
         await _purchaseRepository.AddAsync(purchase);
     }
 
-    public async Task UpdatePurchaseAsync(Purchase purchase)
+    public virtual async Task UpdatePurchaseAsync(Purchase purchase)
     {
         await _purchaseRepository.UpdateAsync(purchase);
     }
 
-    public async Task DeletePurchaseAsync(Guid rowKey)
+    public virtual async Task DeletePurchaseAsync(Guid rowKey)
     {
         await _purchaseRepository.DeleteAsync(rowKey);
     }
 
-    public async Task AddPurchaseToCreditCardAsync(string creditCardName, Purchase purchase)
+    public virtual async Task AddPurchaseToCreditCardAsync(string creditCardName, Purchase purchase)
     {
         var creditCard = _creditCardRepository.GetByKey(creditCardName);
 
@@ -111,7 +111,7 @@ public class FinancialManagementService
         await _creditCardBillRepository.UpdateAsync(bill);
     }
 
-    public async Task AddCsvCardBillToCreditCardBill(CsvBillType bank, string creditCardName, DateTimeOffset month,
+    public virtual async Task AddCsvCardBillToCreditCardBill(CsvBillType bank, string creditCardName, DateTimeOffset month,
         IFormFile file)
     {
         var creditCard = _creditCardRepository.GetByKey(creditCardName);
@@ -170,7 +170,7 @@ public class FinancialManagementService
         await _creditCardBillRepository.UpdateAsync(creditCardBill);
     }
 
-    public async Task AddPersonalAccountSheetCsvBillToPurchases(IFormFile file, DateTimeOffset month)
+    public virtual async Task AddPersonalAccountSheetCsvBillToPurchases(IFormFile file, DateTimeOffset month)
     {
         using var memoryStream = new MemoryStream();
         await file.CopyToAsync(memoryStream);

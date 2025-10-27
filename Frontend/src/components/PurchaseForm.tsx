@@ -32,7 +32,7 @@ export default function PurchaseForm() {
   const loadPurchase = async (_rowKey: string) => {
     try {
       // TODO: Implement get purchase by id
-      
+
       // const response = await financialManagementService.getPurchase(rowKey);
       // setPurchase(response.data);
     } catch (error) {

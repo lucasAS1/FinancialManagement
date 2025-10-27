@@ -2,6 +2,10 @@ import axios from 'axios';
 
 const API_URL = import.meta.env.VITE_API_URL || 'https://localhost:7243/api';
 
+interface ETag {
+  [key: string]: unknown;
+}
+
 const apiClient = axios.create({
   baseURL: API_URL,
   headers: {
@@ -35,7 +39,7 @@ export interface CreditCard {
   partitionKey?: string;
   rowKey?: string;
   timestamp?: string;
-  eTag?: any;
+  eTag?: ETag;
 }
 
 export interface Purchase {
@@ -44,7 +48,7 @@ export interface Purchase {
   dueDate: string;
   paid: boolean;
   timestamp?: string;
-  eTag?: any;
+  eTag?: ETag;
   partitionKey?: string;
   rowKey?: string;
 }
@@ -54,6 +58,16 @@ export interface MonthlyBill {
   value: number;
   paid: boolean;
   rowKey?: string; // Adicionado para facilitar a identificação
+}
+
+export interface CreditCardBill {
+  partitionKey: string;
+  rowKey: string;
+  dueDate: Date;
+  paid: boolean;
+  purchases: Purchase[];
+  timestamp?: string;
+  eTag?: ETag;
 }
 
 export enum CsvBillType {
@@ -70,6 +84,8 @@ export const creditCardService = {
   create: (name: string) => apiClient.post('/CreditCard', name),
   update: (creditCard: CreditCard) => apiClient.put('/CreditCard', creditCard),
   delete: (rowKey: string) => apiClient.delete(`/CreditCard/${rowKey}`),
+  getBills: () => apiClient.get<CreditCardBill[]>('/CreditCard/bills'),
+  getBillsByCard: (cardName: string) => apiClient.get<CreditCardBill[]>(`/CreditCard/${cardName}/bills`),
 };
 
 export const financialManagementService = {

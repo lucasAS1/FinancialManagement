@@ -64,4 +64,22 @@ public class CreditCardController : ControllerBase
         await _creditCardService.DeleteAsync(rowKey);
         return NoContent();
     }
+
+    [HttpGet("bills")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<CreditCardBill>))]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetBills()
+    {
+        var bills = _creditCardService.GetBillsAsync();
+        return Ok(bills);
+    }
+
+    [HttpGet("{cardName}/bills")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<CreditCardBill>))]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetBillsByCard(string cardName)
+    {
+        var bills = _creditCardService.GetBillsByCardAsync(cardName);
+        return Ok(bills);
+    }
 }
